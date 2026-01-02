@@ -2,6 +2,12 @@ from flask import Flask, render_template, jsonify, request
 import PyPDF2
 import json
 import re
+import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    pass
 
 # Gemini SDK
 try:
@@ -13,15 +19,19 @@ except ImportError:
 app = Flask(__name__)
 
 # ================== CONFIGURATION ==================
-API_KEY = "AIzaSyCUJ1j5pe-NC37eP6FnRkzHHsrlSP7nT2E"
+# Load API key from environment for safety (do NOT hardcode keys)
+API_KEY = os.getenv("GEMINI_API_KEY", "")
 client = None
 
-if GEMINI_AVAILABLE:
+if GEMINI_AVAILABLE and API_KEY:
     try:
         client = genai.Client(api_key=API_KEY)
     except Exception as e:
-        print(f"Gemini Client Error: {e}")
+        print("Gemini Client Error:", e)
         client = None
+else:
+    # No API key configured or Gemini SDK unavailable; client stays None
+    client = None
 
 # ================== TEXT EXTRACTION ==================
 def extract_text_from_pdf(pdf_file):
