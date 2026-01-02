@@ -1,10 +1,26 @@
 from flask import Flask, render_template, jsonify, request
-from google import genai
+import os
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    pass
 
-# ✅ Gemini client (API key directly for now)
-client = genai.Client(
-    api_key="AIzaSyBJrkXLssU5zULIlDEncDzua1rWw4A1ykU"
-)
+try:
+    from google import genai
+    GENAI_AVAILABLE = True
+except Exception:
+    genai = None
+    GENAI_AVAILABLE = False
+
+# Load API key from environment for safety
+API_KEY = os.getenv("GEMINI_API_KEY", "")
+client = None
+if GENAI_AVAILABLE and API_KEY:
+    try:
+        client = genai.Client(api_key=API_KEY)
+    except Exception:
+        client = None
 
 app = Flask(__name__)
 
