@@ -1,0 +1,98 @@
+/*
+  styles.css — Professional ATS Resume Checker frontend
+  - System fonts only
+  - Modern corporate blue/indigo palette
+  - Responsive, accessible, pure CSS (Flexbox + Grid)
+*/
+
+:root{
+  --bg: #fbfdff;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #0f62fe; /* indigo/blue */
+  --accent-600: #084bd8;
+  --accent-200: #e6f0ff;
+  --radius: 12px;
+  --shadow: 0 10px 30px rgba(6,24,75,0.06);
+  --max-width: 1100px;
+}
+
+/* Base */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, system-ui;color:#0b1220;background:var(--bg);}
+.container{max-width:var(--max-width);margin:0 auto;padding:28px}
+
+/* Header */
+.site-header{border-bottom:1px solid rgba(15,98,254,0.06);background:linear-gradient(180deg,#fff,#fbfdff)}
+.site-header .container{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand h1{margin:6px 0;font-size:1.25rem;letter-spacing:0.2px}
+.tagline{margin:0;color:var(--muted);font-size:0.95rem}
+.cta .btn{padding:8px 14px}
+
+/* Layout */
+.main{display:grid;grid-template-columns:1fr 420px;gap:24px;margin-top:22px}
+.panel h2{margin:0 0 12px 0;font-size:1.125rem}
+
+/* Cards */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+
+/* Upload card */
+.upload-card{display:flex;flex-direction:column;gap:12px}
+.dropzone{display:block;border:2px dashed var(--accent-200);border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:all 200ms ease;background:linear-gradient(180deg, rgba(15,98,254,0.02), transparent)}
+.dropzone input{position:absolute;opacity:0;pointer-events:none}
+.drop-content{display:flex;flex-direction:column;gap:6px;align-items:center}
+.drop-title{font-weight:600;color:var(--accent)}
+.drop-sub{color:var(--muted);font-size:0.95rem}
+.file-info{font-size:0.95rem;color:var(--muted);margin-top:6px}
+.field-label{display:block;margin-top:8px;margin-bottom:6px;font-weight:600}
+textarea{width:100%;min-height:110px;padding:12px;border-radius:8px;border:1px solid #eef4ff;background:#fff;resize:vertical}
+.counter{font-size:0.85rem;color:var(--muted);text-align:right;margin-top:-8px}
+
+.actions{display:flex;gap:10px;align-items:center;margin-top:8px}
+.btn{display:inline-block;padding:10px 14px;border-radius:10px;border:none;background:#eef2ff;color:#0b1220;cursor:pointer;transition:all 180ms ease}
+.btn:focus{outline:3px solid rgba(15,98,254,0.12)}
+.btn.primary{background:var(--accent);color:#fff;box-shadow:0 6px 18px rgba(15,98,254,0.12)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(15,98,254,0.12)}
+.btn.ghost{background:transparent;border:1px solid #e8f0ff;color:var(--muted)}
+.btn[aria-disabled='true']{opacity:0.55;pointer-events:none}
+
+/* Right column cards */
+.score-card{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center}
+.score-meta{display:flex;flex-direction:column;align-items:center;gap:8px}
+.score-note{font-size:0.95rem;color:var(--muted)}
+
+/* Circular score ring using conic-gradient and CSS variable --score (0-100) */
+.score-ring{width:110px;height:110px;border-radius:999px;display:grid;place-items:center;background:conic-gradient(var(--accent) calc(var(--score) * 1%), #eef3ff 0%);box-shadow:inset 0 -6px 18px rgba(12,50,102,0.03);}
+.score-ring .score-value{font-size:1.6rem;font-weight:700;color:#062a78}
+
+/* Color mapping classes (apply score--low / score--mid / score--high) */
+.score--low{background:conic-gradient(#ff6b6b calc(var(--score) * 1%), #fff3f3 0%)}
+.score--mid{background:conic-gradient(#f5a623 calc(var(--score) * 1%), #fff8ec 0%)}
+.score--high{background:conic-gradient(var(--accent) calc(var(--score) * 1%), #eef3ff 0%)}
+
+.insights{padding-top:6px}
+.insight-list{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.insight-list li{padding:8px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff}
+.insight-list li.good{color: #065f46}
+.insight-list li.bad{color: #b91c1c}
+.insight-list li.warn{color:#92400e}
+.insight-list li.info{color:#0b3a66}
+
+.recommendations ul{margin:0;padding-left:18px}
+
+/* Small devices */
+@media (max-width:900px){
+  .main{grid-template-columns:1fr;}
+  .score-card{grid-template-columns:1fr;grid-auto-rows:auto}
+  .score-meta{flex-direction:row;justify-content:space-between;width:100%}
+}
+
+/* Footer */
+.site-footer{border-top:1px solid rgba(6,24,75,0.04);margin-top:28px;padding:18px 0}
+.footer-inner{display:flex;justify-content:center;color:var(--muted)}
+
+/* Accessibility helper */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* subtle hover for cards */
+.card:hover{transform:translateY(-4px);transition:transform 200ms ease}
